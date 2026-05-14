@@ -1,1168 +1,440 @@
-# DEVOPS LAB QUICK EXECUTION GUIDE
+## Program 1
 
-From uploaded manual 
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import fetch_california_housing
 
----
-
-# PROGRAM 1 — JAVA + MAVEN + GRADLE INSTALLATION
-
-## Software Required
-
-* JDK 21
-* Maven
-* Gradle
-* Eclipse IDE
-
----
-
-## Installation
-
-### Install Java
-
-1. Download JDK:
-
-   * [Oracle Java Download](https://www.oracle.com/in/java/technologies/downloads/?utm_source=chatgpt.com)
-2. Install → Next → Next → Finish
-3. Copy path:
-
-```txt
-C:\Program Files\Java\jdk-21\bin
-```
-
-4. Open:
-
-```txt
-Environment Variables → Path → New
-```
-
-5. Paste Java bin path
-6. Create:
-
-```txt
-JAVA_HOME = C:\Program Files\Java\jdk-21
-```
-
----
-
-### Verify Java
-
-## Commands
-
-```bash
-java -version
-```
-
-## Output
-
-```txt
-java version "21"
-```
-
----
-
-### Install Maven
-
-1. Download:
-
-   * [Maven Download](https://maven.apache.org/download.cgi?utm_source=chatgpt.com)
-2. Extract ZIP
-3. Move to:
-
-```txt
-C:\Program Files\
-```
-
-4. Copy:
-
-```txt
-C:\Program Files\apache-maven-x.x.x\bin
-```
-
-5. Add to PATH
-
-## Commands
-
-```bash
-mvn -v
-```
-
-## Output
-
-```txt
-Apache Maven x.x.x
-```
-
----
-
-### Install Gradle
-
-1. Download:
-
-   * [Gradle Download](https://gradle.org/releases/?utm_source=chatgpt.com)
-2. Extract ZIP
-3. Move to:
-
-```txt
-C:\Program Files\
-```
-
-4. Copy:
-
-```txt
-C:\Program Files\gradle-x.x.x\bin
-```
-
-5. Add to PATH
-
-## Commands
-
-```bash
-gradle -v
-```
-
-## Output
-
-```txt
-Gradle x.x.x
-```
-
----
-
-# PROGRAM 2 — MAVEN SPRING BOOT PROJECT
-
-## Software Required
-
-* Eclipse IDE
-* Maven
-* Java 21
-
----
-
-## Installation
-
-Install Eclipse:
-
-* [Eclipse IDE Download](https://www.eclipse.org/downloads/?utm_source=chatgpt.com)
-
----
-
-## Run Steps
-
-### Create Project
-
-1. Create folder:
-
-```txt
-D:\FirstProgram
-```
-
-2. Open:
-
-* [Spring Initializr](https://start.spring.io/?utm_source=chatgpt.com)
-
-3. Select:
-
-```txt
-Project: Maven
-Language: Java
-```
-
-4. Click:
-
-```txt
-GENERATE
-```
-
-5. Extract ZIP into:
-
-```txt
-D:\FirstProgram
-```
-
----
-
-### Import into Eclipse
-
-1. Open Eclipse
-2. Click:
-
-```txt
-File → Import
-```
-
-3. Search:
-
-```txt
-Existing Maven Projects
-```
-
-4. Browse extracted folder
-5. Finish
-
----
-
-## Code
-
-### Open `pom.xml`
-
-Paste inside `<plugins>`:
-
-```xml
-<plugin>
- <groupId>org.apache.maven.plugins</groupId>
- <artifactId>maven-surefire-plugin</artifactId>
- <configuration>
- <argLine>
- -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
- -Xshare:off
- </argLine>
- </configuration>
-</plugin>
-```
-
----
-
-### Create File
-
-```txt
-src/main/java/.../HelloController.java
-```
-
-### Paste Code
-
-```java
-package com.example.myfirstspringbootapp;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class HelloController {
-
-@GetMapping("/")
-public String sayHello() {
-return "Hello, World!";
-}
-
-}
-```
-
----
-
-## Commands
-
-### Create JAR
-
-Right Click Project →
-
-```txt
-Run As → Maven Build
-```
-
-Run:
-
-```txt
-clean install
-```
-
----
-
-### Run JAR
-
-Open terminal in project folder:
-
-```bash
-java -jar target\myjar.jar
-```
-
----
-
-## Output
-
-Open browser:
-
-```txt
-http://localhost:8080
-```
-
-Expected:
-
-```txt
-Hello, World!
-```
-
----
-
-## Error Fixes
-
-### Port Error
-
-```bash
-netstat -ano | findstr 8080
-```
-
-### Maven Error
-
-```txt
-Right Click Project → Maven → Update Project
-```
-
-### Build Error
-
-```txt
-File → Restart Eclipse
-```
-
----
-
-# PROGRAM 3 — GRADLE PROJECT
-
-## Commands
-
-```bash
-mkdir pgm3
-cd pgm3
-gradle init
-```
-
-Choose:
-
-```txt
-1 → Application
-3 → Groovy
-Java Version → 21
-Project Name → gradletest
-1 → Single Application
-1 → Kotlin DSL
-```
-
----
-
-## Code
-
-### Open `build.gradle`
-
-Paste:
-
-```gradle
-task hello {
-    doLast {
-        println 'Hello, Gradle!'
-    }
-}
-```
-
----
-
-## Commands
-
-```bash
-gradle hello
-```
-
----
-
-## Output
-
-```txt
-Hello, Gradle!
-```
-
----
-
-### Run Project
-
-```bash
-gradlew run
-```
-
----
-
-# PROGRAM 4 — MAVEN TO GRADLE MIGRATION
-
-## Commands
-
-```bash
-gradle init
-```
-
-Select:
-
-```txt
-yes → migrate Maven to Gradle
-2 → Groovy
-yes → API Generator
-```
-
----
-
-### Open `build.gradle`
-
-## Code
-
-```gradle
-plugins {
- id 'java-library'
- id 'maven-publish'
- id 'application'
-}
-
-application {
- mainClass = 'com.ppg4.ppg4.App'
-}
-
-repositories {
- mavenLocal()
- maven {
- url = uri('https://repo.maven.apache.org/maven2/')
- }
-}
-
-dependencies {
- testImplementation libs.junit.junit
-}
-
-group = 'com.ppg4'
-version = '0.0.1-SNAPSHOT'
-description = 'ppg4'
-
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-
-publishing {
- publications {
-  maven(MavenPublication) {
-   from(components.java)
-  }
- }
-}
-
-tasks.withType(JavaCompile) {
- options.encoding = 'UTF-8'
-}
-
-tasks.withType(Javadoc) {
- options.encoding = 'UTF-8'
-}
-```
-
----
-
-## Commands
-
-```bash
-gradle clean build
-gradle run
-```
-
----
-
-## Output
-
-```txt
-Hello World! Welcome to pgm4
-```
-
----
-
-# PROGRAM 5 — JENKINS INSTALLATION
-
-## Software Required
-
-* Java 17/21
-* Jenkins
-
----
-
-## Installation
+housing_data = fetch_california_housing(as_frame=True)
+data = housing_data.frame
 
-### Download Jenkins
+print(data.head())
 
-* [Jenkins Download](https://www.jenkins.io/download/?utm_source=chatgpt.com)
+numerical_features = data.select_dtypes(include=['float64', 'int64']).columns
 
-### Install
+print("Numerical Features:")
+print(numerical_features)
 
-1. Open MSI
-2. Select:
+for feature in numerical_features:
+    plt.figure(figsize=(8,5))
+    plt.hist(data[feature], bins=30, color='skyblue', edgecolor='black')
+    plt.title(f'Histogram of {feature}')
+    plt.xlabel(feature)
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.show()
 
-```txt
-Run service as Local System
-```
-
-3. Port:
-
-```txt
-8080
-```
-
-4. Finish installation
-
----
-
-## Commands
-
-```bash
-java -version
-```
-
----
-
-## Run Steps
-
-Open:
-
-```txt
-http://localhost:8080
-```
-
-Password location:
-
-```txt
-C:\ProgramData\Jenkins\.jenkins\secrets\initialAdminPassword
-```
-
-Copy password → Paste in browser
-
-Click:
-
-```txt
-Install Suggested Plugins
-```
-
-Create admin user
-
----
-
-## Output
-
-```txt
-Jenkins is ready!
-```
-
----
-
-## Error Fixes
-
-### Jenkins not opening
-
-Restart service:
-
-```bash
-services.msc
-```
-
-Restart:
-
-```txt
-Jenkins
-```
-
-### Port Busy
-
-Change Jenkins port from:
-
-```txt
-8080 → 8081
-```
-
----
-
-# PROGRAM 6 — JENKINS CI PIPELINE
-
-## Run Steps
-
-### Install Maven Plugin
-
-1. Jenkins Dashboard
-2. Manage Jenkins
-3. Plugins
-4. Search:
-
-```txt
-Maven Integration Plugin
-```
-
-5. Install
-
----
-
-### Create Freestyle Project
-
-1. New Item
-2. Enter Name
-3. Select:
-
-```txt
-Freestyle Project
-```
-
----
-
-### Configure Build
-
-1. Scroll to:
-
-```txt
-Build
-```
-
-2. Add Build Step →
-
-```txt
-Invoke top-level Maven targets
-```
-
-3. Maven Version:
-
-```txt
-MAVEN_HOME
-```
-
-4. Goals:
-
-```txt
-clean install
-```
-
-5. Advanced →
-   Add:
-
-```txt
-Path to pom.xml
-```
-
-Example:
-
-```txt
-C:\Users\...\pom.xml
-```
+for feature in numerical_features:
+    plt.figure(figsize=(8,5))
+    sns.boxplot(x=data[feature], color='lightgreen')
+    plt.title(f'Boxplot of {feature}')
+    plt.xlabel(feature)
+    plt.show()
 
-6. Save
+    Q1 = data[feature].quantile(0.25)
+    Q3 = data[feature].quantile(0.75)
 
----
-
-## Run Project
-
-Click:
-
-```txt
-Build Now
-```
-
----
-
-## Output
-
-```txt
-BUILD SUCCESS
-```
-
-Check:
-
-```txt
-Console Output
-```
+    IQR = Q3 - Q1
 
----
-
-## Error Fixes
-
-### Maven Not Found
-
-Go:
-
-```txt
-Manage Jenkins → Tools → Maven
-```
-
-Set Maven path correctly.
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
 
-### Build Failed
+    outliers = data[(data[feature] < lower_bound) | (data[feature] > upper_bound)]
 
-Check:
-
-```txt
-pom.xml path
+    print(f'Outliers in {feature}')
+    print(outliers[feature])
 ```
-
----
 
-Source manual: 
-# PROGRAM 7 — ANSIBLE BASIC PLAYBOOK
-
-From uploaded DevOps manual 
-
 ---
-
-# PROGRAM 7 — ANSIBLE PLAYBOOK
-
-## Software Required
 
-* Python
-* Ansible
-* VS Code / Notepad
+## Program 2
 
----
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_california_housing
 
-## Installation
+housing_data = fetch_california_housing(as_frame=True)
 
-### Install Python
+data = housing_data.frame
 
-* [Python Download](https://www.python.org/downloads/?utm_source=chatgpt.com)
+print(data.head())
 
-During install:
-
-```txt id="zex35d"
-✔ Add Python to PATH
-```
+correlation_matrix = data.corr()
 
----
+print("Correlation Matrix")
+print(correlation_matrix)
 
-### Install Ansible (Windows)
+plt.figure(figsize=(10,8))
 
-Open CMD:
+sns.heatmap(
+    correlation_matrix,
+    annot=True,
+    cmap='coolwarm',
+    fmt='.2f',
+    linewidths=0.5
+)
 
-## Commands
+plt.title("Correlation Matrix Heatmap")
 
-```bash id="d2qmyr"
-pip install ansible
-```
+plt.show()
 
-Verify:
+sns.pairplot(
+    data,
+    diag_kind='kde',
+    plot_kws={'alpha':0.7}
+)
 
-```bash id="7jg1jp"
-ansible --version
+plt.show()
 ```
 
 ---
-
-## Create Files
 
-Create folder:
+## Program 3
 
-```bash id="vovv1p"
-mkdir ansible-pgm
-cd ansible-pgm
-```
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.decomposition import PCA
 
----
+iris = load_iris()
 
-### Create `inventory.ini`
+df = pd.DataFrame(
+    data=iris.data,
+    columns=iris.feature_names
+)
 
-## Code
+pca = PCA(n_components=2)
 
-```ini id="l4vowv"
-[local]
-localhost ansible_connection=local
-```
+principal_components = pca.fit_transform(df)
 
----
+principal_df = pd.DataFrame(
+    data=principal_components,
+    columns=['Principal Component 1', 'Principal Component 2']
+)
 
-### Create `playbook.yml`
+final_df = pd.concat(
+    [
+        principal_df,
+        pd.DataFrame(data=iris.target, columns=['target'])
+    ],
+    axis=1
+)
 
-## Code
+fig = plt.figure(figsize=(8,6))
 
-```yaml id="c2u8iq"
----
-- name: My First Playbook
-  hosts: local
-  tasks:
-
-    - name: Create File
-      file:
-        path: hello.txt
-        state: touch
-
-    - name: Write Message
-      copy:
-        content: "Hello from Ansible"
-        dest: hello.txt
-```
+ax = fig.add_subplot(1,1,1)
 
----
+ax.set_xlabel('Principal Component 1', fontsize=15)
+ax.set_ylabel('Principal Component 2', fontsize=15)
 
-## Run Steps
+ax.set_title('2 Component PCA', fontsize=20)
 
-## Commands
+targets = [0,1,2]
 
-```bash id="xfm86d"
-ansible-playbook -i inventory.ini playbook.yml
-```
+colors = ['r','g','b']
 
----
+for target, color in zip(targets, colors):
 
-## Output
+    indices = final_df['target'] == target
 
-```txt id="k39ibq"
-PLAY RECAP
-localhost : ok=2 changed=2 failed=0
-```
+    ax.scatter(
+        final_df.loc[indices, 'Principal Component 1'],
+        final_df.loc[indices, 'Principal Component 2'],
+        c=color,
+        s=50
+    )
 
-File created:
+ax.legend(iris.target_names)
 
-```txt id="d26y1o"
-hello.txt
-```
+ax.grid()
 
-Content:
+plt.show()
 
-```txt id="z1u4u6"
-Hello from Ansible
+print("Explained Variance Ratio:")
+print(pca.explained_variance_ratio_)
 ```
 
 ---
-
-## Error Fixes
-
-### ansible not recognized
 
-```bash id="s4y1tz"
-pip install ansible
-```
+## Program 4
 
-Restart CMD.
-
----
+```python
+import csv
 
-### YAML Error
+attributes = [
+    ['Sunny','Rainy'],
+    ['Warm','Cold'],
+    ['Normal','High'],
+    ['Strong','Weak'],
+    ['Warm','Cool'],
+    ['Same','Change']
+]
 
-Check spacing:
+num_attributes = len(attributes)
 
-```txt id="09f4x9"
-Use spaces only
-No tabs
-```
+print("Most General Hypothesis")
+print(['?'] * num_attributes)
 
----
+print("Most Specific Hypothesis")
+print(['0'] * num_attributes)
 
-# PROGRAM 8 — JENKINS + ANSIBLE DEPLOYMENT
+training_data = []
 
-## Software Required
+with open('ws.csv', 'r') as csvFile:
 
-* Jenkins
-* Maven
-* Ansible
+    reader = csv.reader(csvFile)
 
----
+    for row in reader:
+        training_data.append(row)
+        print(row)
 
-## Run Steps
+hypothesis = ['0'] * num_attributes
 
-### Open Jenkins
+print("Initial Hypothesis")
+print(hypothesis)
 
-```txt id="ozr1t6"
-http://localhost:8080
-```
+for i in range(num_attributes):
+    hypothesis[i] = training_data[0][i]
 
----
+print("Initial Positive Hypothesis")
+print(hypothesis)
 
-### Create New Project
+for i in range(len(training_data)):
 
-1. Click:
+    if training_data[i][num_attributes] == 'Yes':
 
-```txt id="eon7fu"
-New Item
-```
+        for j in range(num_attributes):
 
-2. Enter name:
+            if training_data[i][j] != hypothesis[j]:
+                hypothesis[j] = '?'
 
-```txt id="0rmpjt"
-AnsibleDeploy
-```
+            else:
+                hypothesis[j] = training_data[i][j]
 
-3. Select:
+    print("Hypothesis for Training Example", i + 1)
+    print(hypothesis)
 
-```txt id="p2vx6f"
-Freestyle Project
+print("Final Hypothesis")
+print(hypothesis)
 ```
 
-4. OK
-
 ---
-
-### Configure Maven Build
-
-Scroll → Build
-
-Click:
-
-```txt id="0v0p2o"
-Add Build Step
-```
-
-Choose:
-
-```txt id="1y9s6g"
-Invoke top-level Maven targets
-```
-
-Goals:
 
-```txt id="h2zcy5"
-clean install
-```
+## ws.csv
 
-POM path:
-
-```txt id="w5rtbr"
-C:\path\to\pom.xml
+```csv
+Sunny,Warm,Normal,Strong,Warm,Same,Yes
+Sunny,Warm,High,Strong,Warm,Same,Yes
+Rainy,Cold,High,Strong,Warm,Change,No
+Sunny,Warm,High,Strong,Cool,Change,Yes
 ```
 
 ---
-
-### Add Ansible Step
-
-Click:
-
-```txt id="26zj59"
-Add Build Step
-```
-
-Choose:
 
-```txt id="tlf5yv"
-Execute Windows batch command
-```
+## Program 5
 
-Paste:
+```python
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
 
-## Code
+data = np.random.rand(100)
 
-```bat id="b3zy02"
-ansible-playbook -i inventory.ini playbook.yml
-```
+labels = np.zeros(100)
 
----
+labels[:50] = np.where(data[:50] <= 0.5, 1, 2)
 
-## Run Project
+train_data = data[:50].reshape(-1,1)
 
-Click:
+train_labels = labels[:50]
 
-```txt id="04m1ua"
-Build Now
-```
+test_data = data[50:].reshape(-1,1)
 
----
+k_values = [1,2,3,4,5,20,30]
 
-## Output
+for k in k_values:
 
-```txt id="hdd9rv"
-BUILD SUCCESS
-```
+    knn = KNeighborsClassifier(n_neighbors=k)
 
-Console output shows:
+    knn.fit(train_data, train_labels)
 
-```txt id="2txcjm"
-PLAY RECAP
-```
+    predicted_labels = knn.predict(test_data)
 
----
+    print("K =", k)
 
-## Error Fixes
+    print("Test Value\tPredicted Label")
 
-### ansible command failed
+    for value, label in zip(test_data.flatten(), predicted_labels):
 
-Use full path:
+        print(f"{value:.3f}\t\t{int(label)}")
 
-```bat id="m8z9qv"
-C:\Python\Scripts\ansible-playbook.exe -i inventory.ini playbook.yml
+    print()
 ```
-
----
-
-### Jenkins permission error
-
-Run Jenkins as Administrator.
-
----
-
-# PROGRAM 9 — AZURE DEVOPS ACCOUNT SETUP
-
-## Software Required
-
-* Microsoft Account
-* Browser
-
----
-
-## Installation
 
-Open:
-
-* [Azure DevOps](https://dev.azure.com/?utm_source=chatgpt.com)
-
 ---
-
-## Run Steps
-
-1. Click:
-
-```txt id="y49nzb"
-Start Free
-```
 
-2. Login with Microsoft account
+## Program 8
 
-3. Create Organization
+```python
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
-4. Create Project
+data = load_breast_cancer()
 
-Project settings:
+X = data.data
 
-```txt id="srt0jj"
-Visibility → Private
-Version Control → Git
-Work Item Process → Agile
-```
+y = data.target
 
-5. Click:
-
-```txt id="4v6kpn"
-Create Project
-```
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
 
----
+classifier = DecisionTreeClassifier(random_state=42)
 
-## Output
+classifier.fit(X_train, y_train)
 
-```txt id="8rghr4"
-Azure DevOps Dashboard Opened
-```
+y_pred = classifier.predict(X_test)
 
----
+accuracy = accuracy_score(y_test, y_pred)
 
-## Error Fixes
+print("Accuracy")
+print(accuracy)
 
-### Microsoft login failed
+new_sample = np.array([
+    [
+        17.99,10.38,122.8,1001.0,0.1184,
+        0.2776,0.3001,0.1471,0.2419,0.07871,
+        1.095,0.9053,8.589,153.4,0.006399,
+        0.04904,0.05373,0.01587,0.03003,0.006193,
+        25.38,17.33,184.6,2019.0,0.1622,
+        0.6656,0.7119,0.2654,0.4601,0.1189
+    ]
+])
 
-Use:
+prediction = classifier.predict(new_sample)
 
-```txt id="w8y5k7"
-Outlook account
+print("Prediction")
+print(data.target_names[prediction][0])
 ```
-
----
-
-### Organization already exists
-
-Use different organization name.
 
 ---
 
-# PROGRAM 10 — AZURE BUILD PIPELINE
+## Program 9
 
-## Software Required
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_olivetti_faces
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
 
-* Azure DevOps
-* GitHub account
-* Maven/Gradle project
+faces = fetch_olivetti_faces()
 
----
+X = faces.images
 
-## Run Steps
+y = faces.target
 
-### Open Azure DevOps
+X = X.reshape(X.shape[0], -1)
 
-Go:
-
-```txt id="30daxg"
-Pipelines → Create Pipeline
-```
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
 
----
+classifier = GaussianNB()
 
-### Select Repository
+classifier.fit(X_train, y_train)
 
-Choose:
+y_pred = classifier.predict(X_test)
 
-```txt id="f03r66"
-GitHub
-```
+accuracy = accuracy_score(y_test, y_pred)
 
-Authorize GitHub.
+print("Accuracy")
+print(accuracy)
 
-Select repository.
+plt.figure(figsize=(12,4))
 
----
+for i in range(5):
 
-### Configure Pipeline
+    plt.subplot(1,5,i+1)
 
-Choose:
+    plt.imshow(
+        X_test[i].reshape(64,64),
+        cmap='gray'
+    )
 
-```txt id="6mcl2u"
-Maven
-```
+    plt.title(f"T:{y_test[i]}\nP:{y_pred[i]}")
 
-OR
+    plt.axis('off')
 
-```txt id="k5m84w"
-Gradle
+plt.show()
 ```
 
 ---
-
-### Azure YAML Example
-
-## Code
-
-```yaml id="4i7d12"
-trigger:
-- main
 
-pool:
-  vmImage: ubuntu-latest
+## Program 10
 
-steps:
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'clean install'
-```
-
----
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_breast_cancer
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
 
-## Run Steps
+data = load_breast_cancer()
 
-Click:
+X = data.data
 
-```txt id="lkl1h7"
-Save and Run
-```
-
----
+y = data.target
 
-## Output
+scaler = StandardScaler()
 
-```txt id="ywyylu"
-Build Succeeded
-```
+X_scaled = scaler.fit_transform(X)
 
----
+kmeans = KMeans(
+    n_clusters=2,
+    random_state=42,
+    n_init=10
+)
 
-## Error Fixes
+kmeans.fit(X_scaled)
 
-### pom.xml not found
+labels = kmeans.labels_
 
-Check:
+pca = PCA(n_components=2)
 
-```txt id="2k81w6"
-pom.xml in root folder
-```
+X_pca = pca.fit_transform(X_scaled)
 
----
+plt.figure(figsize=(8,6))
 
-### GitHub authorization failed
+plt.scatter(
+    X_pca[:,0],
+    X_pca[:,1],
+    c=labels,
+    cmap='viridis',
+    alpha=0.7
+)
 
-Reconnect GitHub account.
+plt.xlabel('Principal Component 1')
 
----
+plt.ylabel('Principal Component 2')
 
-### Build failed
+plt.title('K-Means Clustering')
 
-Run locally first:
+plt.colorbar(label='Cluster')
 
-```bash id="5q44n4"
-mvn clean install
+plt.show()
 ```
-
----
-
-Source: uploaded DevOps lab manual 
